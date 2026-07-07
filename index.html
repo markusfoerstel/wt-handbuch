@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wild Things · Prozesse</title>
 <meta property="og:title" content="Wild Things · So läuft unsere Gilde">
-<meta property="og:description" content="Prozesse v0.8: Raiden, Support & Führung – wer wofür zuständig ist, mit Abläufen, Fristen und Verantwortlichen.">
+<meta property="og:description" content="Prozesse v0.10: Raiden, Support & Führung – wer wofür zuständig ist, mit Abläufen, Fristen und Verantwortlichen.">
 <meta property="og:type" content="website">
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -367,6 +367,17 @@
   }
   .sl-node.n-gw .gw-body { min-width: 0; }
   .sl-node.n-gw .gw-q { display: block; font-weight: 600; font-size: 12.5px; line-height: 1.35; }
+  /* Kanten rechts + unten am Gateway: Frage wandert über die Raute
+     (drawConnectors setzt .gw-top). Der unsichtbare Spiegel-Text darunter
+     hält die Raute in der Lane-Mitte - wie beim Ereignis-Kreis. */
+  .sl-node.n-gw .gw-spacer { display: none; }
+  .sl-node.n-gw.gw-top { flex-direction: column; gap: 0; text-align: center; }
+  .sl-node.n-gw.gw-top .gw-body { order: 1; }
+  .sl-node.n-gw.gw-top .gw-diamond { order: 2; }
+  .sl-node.n-gw.gw-top .gw-spacer { display: block; visibility: hidden; order: 3; }
+  /* BPMN-Parallel-Gateway (AND): Raute mit Plus, ohne Beschriftung */
+  .sl-node.n-and { justify-content: center; }
+  .sl-node.n-and .gw-diamond span { font-size: 21px; font-weight: 700; }
   .n-msg .sl-tools, .n-ev .sl-tools { justify-content: center; }
   .sl-tools { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
   .sl-tool {
@@ -409,7 +420,7 @@
   </div>
   <div class="topbar-actions">
     <button id="btn-leads" type="button">Offis</button>
-    <button id="btn-log" type="button">Versionslog · <b>v0.8</b></button>
+    <button id="btn-log" type="button">Versionslog · <b>v0.10</b></button>
   </div>
 </header>
 
@@ -467,7 +478,7 @@
 </aside>
 
 <script>
-const HB = {"version": "0.8", "changelog": [{"version": "0.8", "datum": "07.07.2026", "text": "Onboarding & Trial gestrafft: Die Discord-Tour übernimmt der Recruiter in eigener Lane, der Bot erinnert bei T+28 ans Abschlussgespräch und kündigt auch nach einer Absage die Teamveränderung an", "hash": "cf95eb44697e"}, {"version": "0.7", "datum": "07.07.2026", "text": "Reclear neu getaktet: Das Wochen-Board startet jeden Sonntag um 23 Uhr, der Bot pingt die Verantwortlichen direkt im Thread, und sind Bosse oder Roster montags um 23 Uhr noch offen, erinnert er deutlich. Assignments & HealCDs laufen parallel, der Prozess endet mit dem Raidabend", "hash": "c4862b450964"}, {"version": "0.6", "datum": "07.07.2026", "text": "Prozess-Diagramme nach BPMN 2.0: Ja/Nein-Verzweigungen als echte Gateways, Bot-Erinnerungen als gestrichelte Nachrichten – die Arbeit liegt bei Menschen, der Bot erinnert nur", "hash": "8bd784b37668"}, {"version": "0.5", "datum": "06.07.2026", "text": "Recruitment neu geschnitten: drei Startwege (Bewerbung, Team-Vorschlag, aktive Suche) münden in Sichtung, Gespräch und die Zusage-Entscheidung → Onboarding oder freundliche Absage"}, {"version": "0.4", "datum": "06.07.2026", "text": "Rollen statt Namen: Zuständigkeiten stehen überall als „Rolle (Person)“, „Leadteam“ heißt jetzt „Offis“; Landkarte gestrafft und Prozess-Ansicht auf die Swimlanes fokussiert"}, {"version": "0.3", "datum": "06.07.2026", "text": "Abwesenheits-Board im Discord: Abmelden und Anpassen per Button, flexible Datumsangaben, Wochenübersicht mit Mittwoch/Sonntag – immer aktuell"}, {"version": "0.2", "datum": "06.07.2026", "text": "Prozesse als BPMN-Swimlanes mit Fristen und Verantwortlichen, 🤖-Marker für digitalisierte Prozesse, Prozess-Dropdown und Versionslog im Discord"}, {"version": "0.1", "datum": "04.07.2026", "text": "Erste interaktive Prozesslandkarte (GitHub Pages)"}], "rollen": {"raidlead": {"titel": "Raidlead", "person": "Markus"}, "raidassist": {"titel": "Backup-Raidlead", "person": "Sascha"}, "masterlooter": {"titel": "Masterlooter", "person": "Sascha"}, "bankwart": {"titel": "Bankwart", "person": "Sascha"}, "recruiter": {"titel": "Recruiter", "person": "Lukas"}, "healcds": {"titel": "HealCD-Team", "person": "David & Hurts"}, "events": {"titel": "Eventleitung", "person": "David"}}, "offis": [{"name": "Markus", "char": "Mathrandil"}, {"name": "Sascha", "char": "Sniqi"}, {"name": "Lukas", "char": "Cody"}, {"name": "David", "char": "Duuke"}], "prozesse": [{"id": "vorbereitung", "tier": "kern", "titel": "Vorbereitung", "next": "progress", "zweck": "Strats, HealCDs und Setup stehen – bereit für Pull 1.", "owner": ["raidlead", "healcds"], "lanes": ["raidlead", "healcds", "Raider", "Offis", "Bot"], "flow": [{"e": "start", "lane": "raidlead", "text": "Blizzard kündigt Raid & PTR-Testing an"}, {"e": "task", "lane": "Bot", "bot": true, "text": "Prep-Post je Boss: Schritte schalten sich nach Vorarbeiten frei, Links & Fortschritt gesammelt"}, {"e": "task", "lane": "raidlead", "text": "PTR-Testing sichten, Strategien pro Boss erarbeiten"}, {"e": "task", "lane": "raidlead", "text": "Boss-Channels befüllen: Raidplan, Mechanik-Einteilungen, Guide- & Kill-VoDs (RWF + eure Klasse)", "tools": ["Discord (Boss-Channels)", "Raidplan"]}, {"e": "task", "lane": "healcds", "text": "HealCD-Pläne erstellen – letzte 2 HC-Bosse + alle Mythic-Bosse", "tools": ["Viserio"]}, {"e": "task", "lane": "raidlead", "text": "Vorgaben für DefCDs, Healpots & Healthstones definieren"}, {"e": "task", "lane": "Raider", "text": "Eigene DefCDs planen, Mechaniken lernen, Main & Split-Char raidready"}, {"e": "task", "lane": "Offis", "text": "Roster planen: Meta & Performance abwägen, Setup entscheiden – welche Klassen, welche Spieler", "tools": ["wowaudit"]}, {"e": "end", "lane": "Offis", "text": "Bereit für Pull 1"}], "bot": {"cog": "raidprep", "code_hash": "816d66c9befd", "steps": ["ptr", "raidplan", "vods", "healcd", "defcd", "assignments", "setup"]}}, {"id": "raidabend", "tier": "kern", "titel": "Der Raidabend", "subprocess": "Teilprozess · läuft in Progress & Reclear", "zweck": "Von den Invites um 19:25 bis zu den Schlussworten – so läuft jeder Abend.", "owner": ["raidlead"], "vertretung": "raidassist", "lanes": ["raidassist", "raidlead", "Alle", "Bot"], "flow": [{"e": "start", "lane": "Alle", "text": "Raidtag · 19:25 Uhr", "frist": "19:25"}, {"e": "task", "lane": "Bot", "bot": true, "frist": "bis 24 h vorher", "text": "Abwesenheits-Board in #raid-abmeldungen: Abmeldungen self-service (❌ abwesend / ❓ unsicher / ⏰ verspätet), immer aktuell"}, {"e": "task", "lane": "raidassist", "text": "Invites, Cauldrons & Feast stellen"}, {"e": "task", "lane": "raidassist", "text": "MRT-Notes teilen", "tools": ["MRT"]}, {"e": "task", "lane": "raidlead", "text": "Ready Check & Pull"}, {"e": "task", "lane": "Alle", "text": "Boss-Pulls: Calls durch den Raidlead, HealCD-Timings via NSRT", "tools": ["NSRT"]}, {"e": "gw", "lane": "raidlead", "text": "Wipe – Ursache offensichtlich?"}, {"e": "task", "lane": "raidlead", "branch": "Ja", "text": "Kurz ansprechen, nächster Pull"}, {"e": "task", "lane": "Alle", "branch": "Nein", "text": "VoD-Review live im Stream – zum Lernen, nicht zum Anprangern", "tools": ["Warcraft Recorder"]}, {"e": "task", "lane": "Alle", "text": "Weiter bis 23:00 Uhr", "frist": "bis 23:00"}, {"e": "end", "lane": "raidlead", "text": "Schlussworte & Danke"}], "bot": {"cog": "absences", "code_hash": "24e807dd9f54"}}, {"id": "progress", "tier": "kern", "titel": "Progress", "zweck": "Neue Bosse legen – jeder Abend zählt.", "owner": ["raidlead", "Offis"], "lanes": ["raidlead", "Offis", "Alle"], "flow": [{"e": "start", "lane": "Alle", "text": "Season-Start nach der Vorbereitung"}, {"e": "task", "lane": "Alle", "text": "Raidabende nach Teilprozess „Der Raidabend“"}, {"e": "task", "lane": "Offis", "text": "Roster bei Bedarf anpassen: Utility-/DPS-/HPS-Bedarf oder Abwesenheiten", "tools": ["wowaudit"]}, {"e": "task", "lane": "raidlead", "text": "Strategie anpassen – im Raid und zwischen Abenden bei mehrtägigem Boss", "tools": ["Warcraftlogs"]}, {"e": "end", "lane": "Alle", "text": "Alle Bosse Mythic down"}]}, {"id": "reclear", "tier": "kern", "titel": "Reclear", "zweck": "Wöchentlicher Full-Clear für Gear & Vault.", "owner": ["raidlead", "masterlooter"], "lanes": ["raidlead", "healcds", "Alle", "Bot"], "flow": [{"e": "start", "lane": "Bot", "frist": "23:00", "text": "Jeden Sonntag – Raidwoche endet"}, {"e": "task", "lane": "Bot", "bot": true, "text": "Reclear-Prozess starten: Wochen-Board & Thread posten (Schritte schalten sich nach Vorarbeiten frei)"}, {"e": "task", "lane": "raidlead", "frist": "bis Mo 23:00", "text": "Bosse der Woche festlegen (zu killen, „keine“ möglich)"}, {"e": "msg", "lane": "Bot", "bot": true, "text": "Ping im Reclear-Thread"}, {"e": "task", "lane": "raidlead", "frist": "bis Mo 23:00", "text": "Roster einstellen – im Board abhaken", "tools": ["wowaudit"]}, {"e": "msg", "lane": "Bot", "bot": true, "frist": "Mo 23:00", "text": "Erinnerung, falls Bosse oder Roster noch offen"}, {"e": "task", "lane": "raidlead", "text": "Assignments erstellen"}, {"e": "task", "lane": "healcds", "par": true, "text": "HealCDs anpassen"}, {"e": "msg", "lane": "Bot", "bot": true, "text": "Ping an die Verantwortlichen"}, {"e": "task", "lane": "Alle", "text": "Raidabend nach Teilprozess „Der Raidabend“"}, {"e": "gw", "lane": "raidlead", "text": "Alle Bosse an einem Tag gecleart?"}, {"e": "task", "lane": "raidlead", "branch": "Ja", "text": "Zweiter Raidtag entfällt"}, {"e": "task", "lane": "Alle", "branch": "Nein", "text": "Sonntag: zweiter Raidtag – Prio: der Endboss stirbt"}, {"e": "end", "lane": "Alle", "text": "Reclear der Woche abgeschlossen"}], "bot": {"cog": "reclear", "code_hash": "b0b76532244a", "steps": ["bosse", "roster", "assignments", "healcds"]}}, {"id": "recruitment", "tier": "support", "titel": "Recruitment", "next": "onboarding", "zweck": "Dauerhaft offen – das ganze Team entscheidet mit.", "owner": ["recruiter"], "vertretung": "Offis", "lanes": ["recruiter", "Raider", "Offis"], "flow": [{"e": "start", "lane": "recruiter", "text": "Bewerbung über wowaudit oder per DM"}, {"e": "start", "lane": "Raider", "text": "Vorschlag aus dem Raid-Team – eigener Channel"}, {"e": "start", "lane": "recruiter", "text": "Aktive Suche durch den Recruiter"}, {"e": "task", "lane": "recruiter", "text": "Kandidaten sichten & vorfiltern", "tools": ["wowaudit", "wowprogress", "raider.io"]}, {"e": "task", "lane": "Offis", "text": "Logs analysieren & Bewerbung betrachten (Mechanics → Survivability → DPS/HPS + Fit)", "tools": ["Warcraftlogs"]}, {"e": "msg", "lane": "Raider", "text": "Optional: Raider bewerten mit – eigener Channel"}, {"e": "task", "lane": "recruiter", "frist": "1–2 Wochen", "text": "Gespräch mit dem Kandidaten"}, {"e": "msg", "lane": "Offis", "text": "Ggf. Unterstützung durch einen Offi"}, {"e": "gw", "lane": "recruiter", "text": "Zusage?"}, {"e": "end", "lane": "recruiter", "branch": "Ja", "text": "Übergabe ins Onboarding"}, {"e": "end", "lane": "recruiter", "branch": "Nein", "text": "Freundliche Absage"}]}, {"id": "onboarding", "tier": "support", "titel": "Onboarding & Trial", "zweck": "Neue Spieler in 4 Wochen fair bewerten und integrieren.", "owner": ["recruiter", "raidlead"], "vertretung": "Offis", "lanes": ["Offis", "recruiter", "Bot"], "flow": [{"e": "start", "lane": "Offis", "text": "Zusage nach dem Recruitment"}, {"e": "task", "lane": "Bot", "bot": true, "text": "Trial-Rolle geben, Teamveränderung ankündigen, Raider-Thread erstellen, Willkommensnachricht und FAQ posten"}, {"e": "task", "lane": "recruiter", "text": "Discord-Tour & Abläufe erklären"}, {"e": "task", "lane": "Offis", "frist": "T+21", "text": "Trial bewerten: Mechanics · Survivability · DPS/HPS · Gilden-Fit"}, {"e": "msg", "lane": "Bot", "bot": true, "frist": "T+21", "text": "Erinnerung im Offi-Thread"}, {"e": "task", "lane": "Offis", "frist": "T+28", "text": "Abschlussgespräch führen"}, {"e": "msg", "lane": "Bot", "bot": true, "frist": "T+28", "text": "Erinnerung: Abschlussgespräch führen"}, {"e": "gw", "lane": "Offis", "text": "Übernahme?"}, {"e": "msg", "lane": "Bot", "bot": true, "frist": "T+31", "text": "Erinnerung, falls noch keine Entscheidung getroffen"}, {"e": "task", "lane": "Offis", "branch": "Ja", "text": "Promotion zum Raider"}, {"e": "task", "lane": "Bot", "branch": "Ja", "bot": true, "text": "Trial- gegen Raider-Rolle tauschen, Teamveränderung ankündigen"}, {"e": "task", "lane": "Offis", "branch": "Nein", "text": "Ehrliche Absage"}, {"e": "task", "lane": "Bot", "branch": "Nein", "bot": true, "text": "Rollen entfernen, Raider-Thread archivieren, Teamveränderung ankündigen"}, {"e": "end", "lane": "Offis", "text": "Trial abgeschlossen"}], "bot": {"cog": "trials", "code_hash": "8bf8a2e40e43", "states": ["laufend", "raider", "nicht_bestanden", "abgebrochen"], "events": ["promote", "reject", "cancel"], "trigger_offsets": {"bewertung": 21, "abschluss": 28}, "eskalation_tage": 3}}, {"id": "gildenbank", "tier": "support", "titel": "Gildenbank", "zweck": "Die Bank versorgt den Raid – Cauldrons, Feasts, Vantus.", "owner": ["bankwart"], "lanes": ["bankwart", "Raider"], "flow": [{"e": "start", "lane": "bankwart", "text": "BoE droppt / Bankbedarf entsteht"}, {"e": "task", "lane": "bankwart", "text": "BoEs verkaufen – Raider-Vorkaufsrecht: 20 % unter Server-Marktpreis"}, {"e": "task", "lane": "Raider", "text": "Gelegentliche Boost-Runs als zweite Einnahmequelle"}, {"e": "task", "lane": "bankwart", "text": "Consumables einkaufen & Banktabs bestücken", "tools": ["Gildenbank"]}, {"e": "end", "lane": "bankwart", "text": "Raid voll versorgt: Cauldrons, Feasts, Vantus-Runen"}]}, {"id": "community", "tier": "support", "titel": "Community & Events", "zweck": "Fun Nights & M+-Events für Raider und Socials.", "owner": ["events"], "lanes": ["events", "Offis", "Alle"], "flow": [{"e": "start", "lane": "events", "text": "Event-Idee"}, {"e": "task", "lane": "events", "text": "Planung von Idee bis Durchführung"}, {"e": "task", "lane": "Offis", "text": "Bei Bedarf: Gold-Budget freigeben"}, {"e": "task", "lane": "events", "text": "Ankündigung im Event-Channel"}, {"e": "end", "lane": "Alle", "text": "Fun Night / M+-Event für Raider & Socials"}]}, {"id": "ziele", "tier": "fuehrung", "titel": "Ziele & Saisonplanung", "zweck": "Eure Umfrage, ein World-Rank-Ziel pro Season.", "owner": ["Offis"], "lanes": ["Alle", "Offis"], "flow": [{"e": "start", "lane": "Offis", "text": "Season-Ende"}, {"e": "task", "lane": "Alle", "text": "Umfrage unter allen Trials & Raidern – inklusive eurer Zielvorschläge"}, {"e": "task", "lane": "Offis", "text": "Ergebnisse einbeziehen & World-Rank-Ziel festlegen"}, {"e": "task", "lane": "Offis", "text": "Ziel im Discord dokumentieren"}, {"e": "task", "lane": "Alle", "text": "Season spielen – am Ende: erreicht/verfehlt, Biggest Wins & Losses"}, {"e": "end", "lane": "Offis", "text": "Nächster Schritt Richtung Hall of Fame (bisher: 1825 → … → 241)"}]}]};
+const HB = {"version": "0.10", "changelog": [{"version": "0.10", "datum": "07.07.2026", "text": "„Backup-Raidlead“ heißt jetzt „Raidassist“", "hash": "620051bc216e"}, {"version": "0.9", "datum": "07.07.2026", "text": "Vorbereitung neu geschnitten: /boss vorbereiten legt je Boss einen Bossprep-Channel mit Schritten, Ping-Thread und „Infos & Links“ an; danach laufen Roster, Vorgaben, Raidplan & VoDs parallel (neue Parallel-Gateways), dann bereiten sich die Raider parallel vor – bis „Bereit für den 1. Pull“", "hash": "6c6f31c6df7d"}, {"version": "0.8", "datum": "07.07.2026", "text": "Onboarding & Trial gestrafft: Die Discord-Tour übernimmt der Recruiter in eigener Lane, der Bot erinnert bei T+28 ans Abschlussgespräch und kündigt auch nach einer Absage die Teamveränderung an", "hash": "cf95eb44697e"}, {"version": "0.7", "datum": "07.07.2026", "text": "Reclear neu getaktet: Das Wochen-Board startet jeden Sonntag um 23 Uhr, der Bot pingt die Verantwortlichen direkt im Thread, und sind Bosse oder Roster montags um 23 Uhr noch offen, erinnert er deutlich. Assignments & HealCDs laufen parallel, der Prozess endet mit dem Raidabend", "hash": "c4862b450964"}, {"version": "0.6", "datum": "07.07.2026", "text": "Prozess-Diagramme nach BPMN 2.0: Ja/Nein-Verzweigungen als echte Gateways, Bot-Erinnerungen als gestrichelte Nachrichten – die Arbeit liegt bei Menschen, der Bot erinnert nur", "hash": "8bd784b37668"}, {"version": "0.5", "datum": "06.07.2026", "text": "Recruitment neu geschnitten: drei Startwege (Bewerbung, Team-Vorschlag, aktive Suche) münden in Sichtung, Gespräch und die Zusage-Entscheidung → Onboarding oder freundliche Absage"}, {"version": "0.4", "datum": "06.07.2026", "text": "Rollen statt Namen: Zuständigkeiten stehen überall als „Rolle (Person)“, „Leadteam“ heißt jetzt „Offis“; Landkarte gestrafft und Prozess-Ansicht auf die Swimlanes fokussiert"}, {"version": "0.3", "datum": "06.07.2026", "text": "Abwesenheits-Board im Discord: Abmelden und Anpassen per Button, flexible Datumsangaben, Wochenübersicht mit Mittwoch/Sonntag – immer aktuell"}, {"version": "0.2", "datum": "06.07.2026", "text": "Prozesse als BPMN-Swimlanes mit Fristen und Verantwortlichen, 🤖-Marker für digitalisierte Prozesse, Prozess-Dropdown und Versionslog im Discord"}, {"version": "0.1", "datum": "04.07.2026", "text": "Erste interaktive Prozesslandkarte (GitHub Pages)"}], "rollen": {"raidlead": {"titel": "Raidlead", "person": "Markus"}, "raidassist": {"titel": "Raidassist", "person": "Sascha"}, "masterlooter": {"titel": "Masterlooter", "person": "Sascha"}, "bankwart": {"titel": "Bankwart", "person": "Sascha"}, "recruiter": {"titel": "Recruiter", "person": "Lukas"}, "healcds": {"titel": "HealCD-Team", "person": "David & Hurts"}, "events": {"titel": "Eventleitung", "person": "David"}}, "offis": [{"name": "Markus", "char": "Mathrandil"}, {"name": "Sascha", "char": "Sniqi"}, {"name": "Lukas", "char": "Cody"}, {"name": "David", "char": "Duuke"}], "prozesse": [{"id": "vorbereitung", "tier": "kern", "titel": "Vorbereitung", "next": "progress", "zweck": "Roster, Strats und Assignments stehen – bereit für den 1. Pull.", "owner": ["raidlead"], "lanes": ["Offis", "Bot", "Raider", "raidlead", "raidassist"], "flow": [{"e": "start", "lane": "Offis", "text": "Blizzard kündigt Raid & PTR-Testing an"}, {"e": "task", "lane": "Offis", "text": "Je Boss /boss vorbereiten ausführen"}, {"e": "task", "lane": "Bot", "bot": true, "text": "Channel „Bossprep <Boss>“ erstellen: Übersicht mit den einzelnen Schritten + Thread zum Pingen"}, {"e": "task", "lane": "Bot", "bot": true, "text": "„Infos & Links“ posten: Diskussion & RWF-Roster (Threads), Raidplan, VoDs, HealCD-Plan, Assignments – Offis passen sie per Edit-Button an"}, {"e": "and", "lane": "raidlead"}, {"e": "task", "lane": "Raider", "branch": "roster", "text": "RWF-Roster analysieren"}, {"e": "task", "lane": "raidlead", "branch": "roster", "text": "Roster festlegen", "tools": ["wowaudit"]}, {"e": "task", "lane": "raidassist", "branch": "vorgaben", "text": "Vorgaben für DefCDs, Healpot- & Healthstone-Nutzung definieren"}, {"e": "task", "lane": "raidlead", "branch": "raidplan", "text": "Raidplan erstellen/anpassen", "tools": ["Raidplan"]}, {"e": "task", "lane": "raidlead", "branch": "assignments", "text": "Assignments definieren"}, {"e": "task", "lane": "raidlead", "branch": "guide", "text": "Guide-Video teilen"}, {"e": "task", "lane": "raidlead", "branch": "vod", "text": "RWF-Kill-VoD teilen"}, {"e": "and", "lane": "raidlead"}, {"e": "and", "lane": "Raider"}, {"e": "task", "lane": "Raider", "branch": "defcds", "text": "DefCDs planen"}, {"e": "task", "lane": "Raider", "branch": "guide", "text": "Guide-Video schauen"}, {"e": "task", "lane": "Raider", "branch": "vod", "text": "RWF-Kill-VoD schauen"}, {"e": "task", "lane": "Raider", "branch": "mechanik", "text": "Mechaniken lernen"}, {"e": "and", "lane": "Raider"}, {"e": "task", "lane": "raidlead", "text": "Assignments einteilen"}, {"e": "end", "lane": "raidlead", "text": "Bereit für den 1. Pull"}], "bot": {"cog": "raidprep", "code_hash": "816d66c9befd", "steps": ["ptr", "raidplan", "vods", "healcd", "defcd", "assignments", "setup"]}}, {"id": "raidabend", "tier": "kern", "titel": "Der Raidabend", "subprocess": "Teilprozess · läuft in Progress & Reclear", "zweck": "Von den Invites um 19:25 bis zu den Schlussworten – so läuft jeder Abend.", "owner": ["raidlead"], "vertretung": "raidassist", "lanes": ["raidassist", "raidlead", "Alle", "Bot"], "flow": [{"e": "start", "lane": "Alle", "text": "Raidtag · 19:25 Uhr", "frist": "19:25"}, {"e": "task", "lane": "Bot", "bot": true, "frist": "bis 24 h vorher", "text": "Abwesenheits-Board in #raid-abmeldungen: Abmeldungen self-service (❌ abwesend / ❓ unsicher / ⏰ verspätet), immer aktuell"}, {"e": "task", "lane": "raidassist", "text": "Invites, Cauldrons & Feast stellen"}, {"e": "task", "lane": "raidassist", "text": "MRT-Notes teilen", "tools": ["MRT"]}, {"e": "task", "lane": "raidlead", "text": "Ready Check & Pull"}, {"e": "task", "lane": "Alle", "text": "Boss-Pulls: Calls durch den Raidlead, HealCD-Timings via NSRT", "tools": ["NSRT"]}, {"e": "gw", "lane": "raidlead", "text": "Wipe – Ursache offensichtlich?"}, {"e": "task", "lane": "raidlead", "branch": "Ja", "text": "Kurz ansprechen, nächster Pull"}, {"e": "task", "lane": "Alle", "branch": "Nein", "text": "VoD-Review live im Stream – zum Lernen, nicht zum Anprangern", "tools": ["Warcraft Recorder"]}, {"e": "task", "lane": "Alle", "text": "Weiter bis 23:00 Uhr", "frist": "bis 23:00"}, {"e": "end", "lane": "raidlead", "text": "Schlussworte & Danke"}], "bot": {"cog": "absences", "code_hash": "24e807dd9f54"}}, {"id": "progress", "tier": "kern", "titel": "Progress", "zweck": "Neue Bosse legen – jeder Abend zählt.", "owner": ["raidlead", "Offis"], "lanes": ["raidlead", "Offis", "Alle"], "flow": [{"e": "start", "lane": "Alle", "text": "Season-Start nach der Vorbereitung"}, {"e": "task", "lane": "Alle", "text": "Raidabende nach Teilprozess „Der Raidabend“"}, {"e": "task", "lane": "Offis", "text": "Roster bei Bedarf anpassen: Utility-/DPS-/HPS-Bedarf oder Abwesenheiten", "tools": ["wowaudit"]}, {"e": "task", "lane": "raidlead", "text": "Strategie anpassen – im Raid und zwischen Abenden bei mehrtägigem Boss", "tools": ["Warcraftlogs"]}, {"e": "end", "lane": "Alle", "text": "Alle Bosse Mythic down"}]}, {"id": "reclear", "tier": "kern", "titel": "Reclear", "zweck": "Wöchentlicher Full-Clear für Gear & Vault.", "owner": ["raidlead", "masterlooter"], "lanes": ["raidlead", "healcds", "Alle", "Bot"], "flow": [{"e": "start", "lane": "Bot", "frist": "23:00", "text": "Jeden Sonntag – Raidwoche endet"}, {"e": "task", "lane": "Bot", "bot": true, "text": "Reclear-Prozess starten: Wochen-Board & Thread posten (Schritte schalten sich nach Vorarbeiten frei)"}, {"e": "task", "lane": "raidlead", "frist": "bis Mo 23:00", "text": "Bosse der Woche festlegen (zu killen, „keine“ möglich)"}, {"e": "msg", "lane": "Bot", "bot": true, "text": "Ping im Reclear-Thread"}, {"e": "task", "lane": "raidlead", "frist": "bis Mo 23:00", "text": "Roster einstellen – im Board abhaken", "tools": ["wowaudit"]}, {"e": "msg", "lane": "Bot", "bot": true, "frist": "Mo 23:00", "text": "Erinnerung, falls Bosse oder Roster noch offen"}, {"e": "task", "lane": "raidlead", "text": "Assignments erstellen"}, {"e": "task", "lane": "healcds", "par": true, "text": "HealCDs anpassen"}, {"e": "msg", "lane": "Bot", "bot": true, "text": "Ping an die Verantwortlichen"}, {"e": "task", "lane": "Alle", "text": "Raidabend nach Teilprozess „Der Raidabend“"}, {"e": "gw", "lane": "raidlead", "text": "Alle Bosse an einem Tag gecleart?"}, {"e": "task", "lane": "raidlead", "branch": "Ja", "text": "Zweiter Raidtag entfällt"}, {"e": "task", "lane": "Alle", "branch": "Nein", "text": "Sonntag: zweiter Raidtag – Prio: der Endboss stirbt"}, {"e": "end", "lane": "Alle", "text": "Reclear der Woche abgeschlossen"}], "bot": {"cog": "reclear", "code_hash": "b0b76532244a", "steps": ["bosse", "roster", "assignments", "healcds"]}}, {"id": "recruitment", "tier": "support", "titel": "Recruitment", "next": "onboarding", "zweck": "Dauerhaft offen – das ganze Team entscheidet mit.", "owner": ["recruiter"], "vertretung": "Offis", "lanes": ["recruiter", "Raider", "Offis"], "flow": [{"e": "start", "lane": "recruiter", "text": "Bewerbung über wowaudit oder per DM"}, {"e": "start", "lane": "Raider", "text": "Vorschlag aus dem Raid-Team – eigener Channel"}, {"e": "start", "lane": "recruiter", "text": "Aktive Suche durch den Recruiter"}, {"e": "task", "lane": "recruiter", "text": "Kandidaten sichten & vorfiltern", "tools": ["wowaudit", "wowprogress", "raider.io"]}, {"e": "task", "lane": "Offis", "text": "Logs analysieren & Bewerbung betrachten (Mechanics → Survivability → DPS/HPS + Fit)", "tools": ["Warcraftlogs"]}, {"e": "msg", "lane": "Raider", "text": "Optional: Raider bewerten mit – eigener Channel"}, {"e": "task", "lane": "recruiter", "frist": "1–2 Wochen", "text": "Gespräch mit dem Kandidaten"}, {"e": "msg", "lane": "Offis", "text": "Ggf. Unterstützung durch einen Offi"}, {"e": "gw", "lane": "recruiter", "text": "Zusage?"}, {"e": "end", "lane": "recruiter", "branch": "Ja", "text": "Übergabe ins Onboarding"}, {"e": "end", "lane": "recruiter", "branch": "Nein", "text": "Freundliche Absage"}]}, {"id": "onboarding", "tier": "support", "titel": "Onboarding & Trial", "zweck": "Neue Spieler in 4 Wochen fair bewerten und integrieren.", "owner": ["recruiter", "raidlead"], "vertretung": "Offis", "lanes": ["Offis", "recruiter", "Bot"], "flow": [{"e": "start", "lane": "Offis", "text": "Zusage nach dem Recruitment"}, {"e": "task", "lane": "Bot", "bot": true, "text": "Trial-Rolle geben, Teamveränderung ankündigen, Raider-Thread erstellen, Willkommensnachricht und FAQ posten"}, {"e": "task", "lane": "recruiter", "text": "Discord-Tour & Abläufe erklären"}, {"e": "task", "lane": "Offis", "frist": "T+21", "text": "Trial bewerten: Mechanics · Survivability · DPS/HPS · Gilden-Fit"}, {"e": "msg", "lane": "Bot", "bot": true, "frist": "T+21", "text": "Erinnerung im Offi-Thread"}, {"e": "task", "lane": "Offis", "frist": "T+28", "text": "Abschlussgespräch führen"}, {"e": "msg", "lane": "Bot", "bot": true, "frist": "T+28", "text": "Erinnerung: Abschlussgespräch führen"}, {"e": "gw", "lane": "Offis", "text": "Übernahme?"}, {"e": "msg", "lane": "Bot", "bot": true, "frist": "T+31", "text": "Erinnerung, falls noch keine Entscheidung getroffen"}, {"e": "task", "lane": "Offis", "branch": "Ja", "text": "Promotion zum Raider"}, {"e": "task", "lane": "Bot", "branch": "Ja", "bot": true, "text": "Trial- gegen Raider-Rolle tauschen, Teamveränderung ankündigen"}, {"e": "task", "lane": "Offis", "branch": "Nein", "text": "Ehrliche Absage"}, {"e": "task", "lane": "Bot", "branch": "Nein", "bot": true, "text": "Rollen entfernen, Raider-Thread archivieren, Teamveränderung ankündigen"}, {"e": "end", "lane": "Offis", "text": "Trial abgeschlossen"}], "bot": {"cog": "trials", "code_hash": "8bf8a2e40e43", "states": ["laufend", "raider", "nicht_bestanden", "abgebrochen"], "events": ["promote", "reject", "cancel"], "trigger_offsets": {"bewertung": 21, "abschluss": 28}, "eskalation_tage": 3}}, {"id": "gildenbank", "tier": "support", "titel": "Gildenbank", "zweck": "Die Bank versorgt den Raid – Cauldrons, Feasts, Vantus.", "owner": ["bankwart"], "lanes": ["bankwart", "Raider"], "flow": [{"e": "start", "lane": "bankwart", "text": "BoE droppt / Bankbedarf entsteht"}, {"e": "task", "lane": "bankwart", "text": "BoEs verkaufen – Raider-Vorkaufsrecht: 20 % unter Server-Marktpreis"}, {"e": "task", "lane": "Raider", "text": "Gelegentliche Boost-Runs als zweite Einnahmequelle"}, {"e": "task", "lane": "bankwart", "text": "Consumables einkaufen & Banktabs bestücken", "tools": ["Gildenbank"]}, {"e": "end", "lane": "bankwart", "text": "Raid voll versorgt: Cauldrons, Feasts, Vantus-Runen"}]}, {"id": "community", "tier": "support", "titel": "Community & Events", "zweck": "Fun Nights & M+-Events für Raider und Socials.", "owner": ["events"], "lanes": ["events", "Offis", "Alle"], "flow": [{"e": "start", "lane": "events", "text": "Event-Idee"}, {"e": "task", "lane": "events", "text": "Planung von Idee bis Durchführung"}, {"e": "task", "lane": "Offis", "text": "Bei Bedarf: Gold-Budget freigeben"}, {"e": "task", "lane": "events", "text": "Ankündigung im Event-Channel"}, {"e": "end", "lane": "Alle", "text": "Fun Night / M+-Event für Raider & Socials"}]}, {"id": "ziele", "tier": "fuehrung", "titel": "Ziele & Saisonplanung", "zweck": "Eure Umfrage, ein World-Rank-Ziel pro Season.", "owner": ["Offis"], "lanes": ["Alle", "Offis"], "flow": [{"e": "start", "lane": "Offis", "text": "Season-Ende"}, {"e": "task", "lane": "Alle", "text": "Umfrage unter allen Trials & Raidern – inklusive eurer Zielvorschläge"}, {"e": "task", "lane": "Offis", "text": "Ergebnisse einbeziehen & World-Rank-Ziel festlegen"}, {"e": "task", "lane": "Offis", "text": "Ziel im Discord dokumentieren"}, {"e": "task", "lane": "Alle", "text": "Season spielen – am Ende: erreicht/verfehlt, Biggest Wins & Losses"}, {"e": "end", "lane": "Offis", "text": "Nächster Schritt Richtung Hall of Fame (bisher: 1825 → … → 241)"}]}]};
 
 const TIER_COLOR = {
   kern: "var(--legendary)",
@@ -553,21 +564,27 @@ function slToolsHtml(n) {
    - mehrere start-Knoten am Anfang = alternative Auslöser: teilen sich eine
      Spalte, alle münden in den ersten regulären Knoten.
    - msg-Knoten hängen als gestrichelter Nachrichtenfluss am Sequenz-Knoten
-     davor, teilen dessen Spalte und sind kein eigener Prozessschritt.
+     davor - bei einer Parallel-Gruppe an allen ihren Knoten -, teilen dessen
+     Spalte und sind kein eigener Prozessschritt.
    - branch-Knoten folgen einem Gateway; der erste Knoten je Label bekommt
      die beschriftete Kante vom Gateway, weitere Knoten mit demselben Label
      bilden eine Kette dahinter (Spalte je Ketten-Position). Nicht-terminale
      Ketten-Enden münden in den nächsten regulären Knoten (end ist terminal).
    - par-Knoten laufen parallel zum Sequenz-Knoten davor (impliziter
      AND-Split): gleiche Spalte, gleiche eingehende Kanten, und alle Knoten
-     der Parallel-Gruppe münden in den nächsten regulären Knoten. */
+     der Parallel-Gruppe münden in den nächsten regulären Knoten.
+   - and-Knoten sind Parallel-Gateways: der Split führt Zweig-Ketten wie ein
+     XOR-Gateway, nur ohne Kanten-Labels (branch gruppiert dort nur); ein
+     and-Knoten ohne folgende Zweige ist der Join und sammelt als regulärer
+     Knoten die Ketten-Enden ein. */
 function flowLayout(flow) {
   const cols = [], edges = [];
   let col = 0, prev = -1, gw = -1, branches = [], starts = [], par = [];
   flow.forEach((n, i) => {
     if (n.e === "msg") {
       cols[i] = prev >= 0 ? cols[prev] : 0;
-      if (prev >= 0) edges.push({ from: i, to: prev, dashed: true });
+      const targets = par.includes(prev) ? par : prev >= 0 ? [prev] : [];
+      targets.forEach(t => edges.push({ from: i, to: t, dashed: true }));
       return;
     }
     if (n.e === "start") {
@@ -585,7 +602,9 @@ function flowLayout(flow) {
         edges.push({ from: prevSame, to: i });
       } else {
         cols[i] = branches.length ? cols[branches[0]] : col++;
-        edges.push({ from: gw, to: i, label: n.branch });
+        // AND-Zweige tragen kein Label - branch gruppiert dort nur die Kette.
+        edges.push({ from: gw, to: i, gw: true,
+                     label: flow[gw].e === "gw" ? n.branch : "" });
       }
       branches.push(i);
       prev = i;
@@ -616,7 +635,7 @@ function flowLayout(flow) {
       edges.push({ from: prev, to: i });
     }
     par = [i];
-    if (n.e === "gw") gw = i;
+    if (n.e === "gw" || n.e === "and") gw = i;
     prev = i;
   });
   return { cols, edges };
@@ -630,7 +649,11 @@ function slNodeHtml(n, idx) {
     return `<div class="sl-node n-ev${n.e === "end" ? " n-end" : ""}" ${attrs}>${frist}${bot}<span class="ev-spacer" aria-hidden="true">${esc(n.text)}</span><i></i><span>${esc(n.text)}</span></div>`;
   }
   if (n.e === "gw") {
-    return `<div class="sl-node n-gw" ${attrs}>${frist}<span class="gw-diamond"><span>✕</span></span><span class="gw-body"><span class="gw-q">${esc(n.text)}</span>${slToolsHtml(n)}</span></div>`;
+    const body = `<span class="gw-q">${esc(n.text)}</span>${slToolsHtml(n)}`;
+    return `<div class="sl-node n-gw" ${attrs}>${frist}<span class="gw-diamond"><span>✕</span></span><span class="gw-body">${body}</span><span class="gw-body gw-spacer" aria-hidden="true">${body}</span></div>`;
+  }
+  if (n.e === "and") {
+    return `<div class="sl-node n-gw n-and" ${attrs}>${frist}<span class="gw-diamond"><span>+</span></span></div>`;
   }
   if (n.e === "msg") {
     return `<div class="sl-node n-msg" ${attrs}>${frist}<i>✉</i><span>${esc(n.text)}</span></div>`;
@@ -669,7 +692,6 @@ function drawConnectors() {
   const grid = tooltip.querySelector(".sl-grid");
   if (!grid || !currentProc) return;
   const svg = grid.querySelector(".sl-svg");
-  const g = grid.getBoundingClientRect();
   const { edges } = flowLayout(currentProc.flow);
   // Pfeile docken am Symbol an (Ereignis-Kreis, Gateway-Raute, Umschlag),
   // nicht an der unsichtbaren zellbreiten Knoten-Box; Tasks bleiben die Box.
@@ -680,6 +702,31 @@ function drawConnectors() {
     const sym = el.querySelector("i, .gw-diamond");
     return (sym || el).getBoundingClientRect();
   };
+  // XOR-Gateway: Verlassen Kanten die Raute rechts UND unten, wandert die
+  // Frage über die Raute - rechts stünde sie der austretenden Kante im Weg.
+  // Aus der Kantengeometrie erkannt (gleiche Schwellen wie die Zweig-Kanten
+  // unten); der Spiegel-Spacer hält die Raute in der Lane-Mitte, das
+  // Umschalten ändert die Austrittsseiten also nicht.
+  currentProc.flow.forEach((n, i) => {
+    if (n.e !== "gw") return;
+    const y1 = rectOf(i).top + rectOf(i).height / 2;
+    const sides = edges.filter(e => e.from === i && !e.dashed).map(e => {
+      if (!e.gw) return "right";
+      const b = rectOf(e.to), y2 = b.top + b.height / 2;
+      return y2 < y1 - 4 ? "top" : y2 > y1 + 4 ? "bottom" : "right";
+    });
+    nodeOf(i).classList.toggle("gw-top",
+      sides.includes("right") && sides.includes("bottom") && !sides.includes("top"));
+  });
+  // Erst nach dem Umschalten messen - .gw-top kann Zeilenhöhen ändern.
+  const g = grid.getBoundingClientRect();
+  // Mehrere Nachrichtenflüsse desselben msg-Knotens (Parallel-Gruppe) fächern
+  // seitlich auf, sonst lägen die senkrechten Linien deckungsgleich übereinander.
+  const fans = new Map();
+  edges.filter(e => e.dashed).forEach(e => {
+    if (!fans.has(e.from)) fans.set(e.from, []);
+    fans.get(e.from).push(e);
+  });
   const defs = `<defs>` +
     `<marker id="sl-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#8B93A3" fill-opacity="0.9" stroke="none"/></marker>` +
     `<marker id="sl-arrow-open" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1.5,1.5 L8.5,5 L1.5,8.5" fill="none" stroke="#8B93A3" stroke-opacity="0.9" stroke-width="1.4"/></marker>` +
@@ -693,7 +740,9 @@ function drawConnectors() {
       // zielt aber auf das Symbol bzw. die Box des Zielknotens.
       const aBox = nodeOf(e.from).getBoundingClientRect();
       const up = b.bottom <= aBox.top;
-      const x1 = a.left + a.width / 2 - g.left, x2 = b.left + b.width / 2 - g.left;
+      const sibs = fans.get(e.from);
+      const off = (sibs.indexOf(e) - (sibs.length - 1) / 2) * 12;
+      const x1 = a.left + a.width / 2 - g.left + off, x2 = b.left + b.width / 2 - g.left + off;
       const y1 = (up ? aBox.top : aBox.bottom) - g.top, y2 = (up ? b.bottom : b.top) - g.top;
       const ym = (y1 + y2) / 2;
       const d = Math.abs(x1 - x2) < 2
@@ -703,12 +752,12 @@ function drawConnectors() {
       continue;
     }
     // Sequenzfluss: rechts Mitte -> links Mitte, Knicke als Bézier gerundet.
-    // Zweig-Kanten (mit Label) verlassen das Gateway oben/unten, wenn ihr
+    // Zweig-Kanten (vom Gateway) verlassen die Raute oben/unten, wenn ihr
     // Ziel klar über/unter der Raute liegt - wie im BPMN-Lehrbuch.
     const x2 = b.left - g.left, y2 = b.top + b.height / 2 - g.top;
     let x1 = a.right - g.left, y1 = a.top + a.height / 2 - g.top;
     let exit = "right";
-    if (e.label) {
+    if (e.gw) {
       if (y2 < y1 - 4) exit = "top";
       else if (y2 > y1 + 4) exit = "bottom";
       if (exit !== "right") {
@@ -753,10 +802,11 @@ function open(id) {
   currentProc = p;
   let html = `<button class="t-close" aria-label="Schließen">✕</button>`;
   html += `<div class="t-title" id="t-title" style="color:${TIER_COLOR[p.tier]}">${esc(p.titel)}</div>`;
-  const meta = [`Zuständig: <b>${esc(p.owner.map(roleLabel).join(" · "))}</b>`];
+  // Zuständige stehen nicht im Kopf - die Swimlanes zeigen, wer was tut.
+  const meta = [];
   if (p.vertretung) meta.push(`Vertretung: <b>${esc(roleLabel(p.vertretung))}</b>`);
   if (p.bot) meta.push(botBadge(p));
-  html += `<div class="t-meta">${esc(p.zweck)}<br>${meta.join(" · ")}</div>`;
+  html += `<div class="t-meta">${esc(p.zweck)}${meta.length ? "<br>" + meta.join(" · ") : ""}</div>`;
   html += swimlaneHtml(p);
   tooltip.innerHTML = html;
   overlay.classList.add("open");
